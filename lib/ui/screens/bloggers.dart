@@ -86,17 +86,36 @@ class BlogCard extends StatelessWidget {
         onTap: () {},
         child: Row(
           children: [
-            ClipRRect(
-              borderRadius: BorderRadius.circular(10),
-              child: Image.network(
-                "https://picsum.photos/250?image=9",
-                width: 62,
-                height: 62,
-              ),
+            Stack(
+              alignment: Alignment.bottomRight,
+              children: [
+                ClipRRect(
+                  borderRadius: BorderRadius.circular(10),
+                  child: Image.network(
+                    "https://picsum.photos/250?image=9",
+                    width: 62,
+                    height: 62,
+                  ),
+                ),
+                Transform(
+                  transform: Matrix4.translationValues(10, 10, 0),
+                  child:
+                      //TODO: Вот тут иконка соц сети
+                      // Сделай пж тоже через Clip
+                      //ClipOval вроде
+                      Container(
+                    color: Colors.red,
+                    width: 30,
+                    height: 30,
+                  ),
+                  //
+                  //
+                ),
+              ],
             ),
             Expanded(
               child: Container(
-                padding: EdgeInsets.only(left: 15),
+                padding: EdgeInsets.only(left: 20),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
