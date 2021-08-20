@@ -8,62 +8,67 @@ class BloggersScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-        home: DefaultTabController(
-            length: 2,
-            child: Scaffold(
-              appBar: AppBar(
-                leading: IconButton(
-                    icon: Icon(Icons.arrow_back_ios), onPressed: () {}),
-                centerTitle: true,
-                title: Text(
-                  'Блогеры',
-                  style: TextStyle(
-                    fontFamily: 'Bitter',
-                    fontSize: 24,
-                    fontWeight: FontWeight.w200,
-                    color: Colors.black,
-                  ),
-                ),
-                bottom: TabBar(
-                  tabs: [
-                    Tab(text: 'Блогеры'),
-                    Tab(text: 'Приглашены'),
-                  ],
-                ),
-              ),
-              body: TabBarView(
-                children: [FirstScreen(), SecondScreen()],
-              ),
-            )));
+    return DefaultTabController(
+      length: 2,
+      child: Scaffold(
+        appBar: AppBar(
+          leading:
+              IconButton(icon: Icon(Icons.arrow_back_ios), onPressed: () {}),
+          centerTitle: true,
+          title: Text(
+            'Блогеры',
+            style: TextStyle(
+              fontSize: 24,
+              fontWeight: FontWeight.w200,
+              color: Colors.black,
+            ),
+          ),
+          bottom: TabBar(
+            tabs: [
+              Tab(text: 'Блогеры'),
+              Tab(text: 'Приглашены'),
+            ],
+          ),
+        ),
+        body: TabBarView(
+          children: [
+            FirstScreen(),
+            SecondScreen(),
+          ],
+        ),
+      ),
+    );
   }
 }
 
 class FirstScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-        debugShowCheckedModeBanner: false,
-        home: Scaffold(
-            body: ListView(
-          padding: EdgeInsets.symmetric(horizontal: 20),
-          children: [BlogCard(),BlogCard(),BlogCard(),BlogCard(),],
-        )));
+    return Scaffold(
+      body: ListView(
+        padding: EdgeInsets.symmetric(horizontal: 10),
+        children: [
+          BlogCard(),
+          BlogCard(),
+          BlogCard(),
+          BlogCard(),
+        ],
+      ),
+    );
   }
 }
-
-
 
 class SecondScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-        debugShowCheckedModeBanner: false,
-        home: Scaffold(
-            body: ListView(
-          padding: EdgeInsets.symmetric(horizontal: 20),
-          children: [BlogCard()],
-        )));
+    return Scaffold(
+      body: ListView(
+        padding: EdgeInsets.symmetric(horizontal: 10),
+        children: [
+          BlogCard(),
+        ],
+      ),
+    );
   }
 }
 
@@ -74,19 +79,21 @@ class BlogCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
     return Container(
-      padding: EdgeInsets.only(top:20),
+      padding: EdgeInsets.only(top: 20),
       child: InkWell(
         onTap: () {},
         child: Row(
           children: [
             ClipRRect(
-                borderRadius: BorderRadius.circular(10),
-                child: Image.network(
-                  "https://picsum.photos/250?image=9",
-                  width: 62,
-                  height: 62,
-                )),
+              borderRadius: BorderRadius.circular(10),
+              child: Image.network(
+                "https://picsum.photos/250?image=9",
+                width: 62,
+                height: 62,
+              ),
+            ),
             Expanded(
               child: Container(
                 padding: EdgeInsets.only(left: 15),
@@ -118,7 +125,7 @@ class BlogCard extends StatelessWidget {
                       style: TextStyle(
                         fontSize: 12,
                         fontWeight: FontWeight.w300,
-                        color: Colors.lightBlue,
+                        color: theme.primaryColor,
                       ),
                     ),
                   ],
@@ -129,7 +136,11 @@ class BlogCard extends StatelessWidget {
               onTap: () {},
               child: Container(
                 padding: EdgeInsets.only(right: 10),
-                child: SvgPicture.asset('assets/icons/letter.svg'),
+                child: SvgPicture.asset(
+                  'assets/icons/letter.svg',
+                  height: 40,
+                  width: 40,
+                ),
               ),
             )
           ],
