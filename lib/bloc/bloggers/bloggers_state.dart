@@ -11,9 +11,17 @@ class BloggersLoading extends BloggersState {}
 class BloggersLoadingFailure extends BloggersState {}
 
 class BloggersLoaded extends BloggersState {
-  BloggersLoaded(this.bloggers);
-  final List<ApiBlogger> bloggers;
+  BloggersLoaded({
+    required this.unselectBloggers,
+    required this.selectedBloggers,
+  });
+  final List<ApiBlogger> unselectBloggers;
+  final List<ApiBlogger> selectedBloggers;
 
   @override
-  List<Object?> get props => super.props..add(bloggers);
+  List<Object?> get props => super.props
+    ..addAll([
+      unselectBloggers,
+      selectedBloggers,
+    ]);
 }

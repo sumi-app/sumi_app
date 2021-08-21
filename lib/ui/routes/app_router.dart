@@ -18,9 +18,9 @@ import 'package:sumi/ui/widgets/super_structures/super_structures.dart';
 @MaterialAutoRouter(
   replaceInRouteName: '',
   routes: <AutoRoute>[
-    AutoRoute(page: HomeNavigator, initial: true),
+    // AutoRoute(page: HomeNavigator, initial: true),
     AutoRoute(page: Home),
-    AutoRoute(page: PressToursScreen),
+    AutoRoute(page: PressToursScreen, initial: true),
     AutoRoute(page: PressTourScreen),
     AutoRoute(page: BloggersScreen),
     AutoRoute(page: ArchiveScreen),

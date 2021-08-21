@@ -9,12 +9,23 @@ class BloggerMethods extends BloggerMethodsInterace {
   final Dio _dio;
 
   @override
-  Future<List<ApiBlogger>> get() async {
+  Future<List<ApiBlogger>> get({
+    required bool isSelected,
+    bool isFavorite = false,
+  }) async {
     var bloggers = <ApiBlogger>[];
     try {
-      final res = await _dio.get('/blogger');
-      if (res.statusCode == 200 && res.data != null) {
-        bloggers = _parseBloggers(res.data);
+      final res = await _dio.get(
+        '/blogger',
+        queryParameters: {
+          'is_selected': isSelected,
+          'is_favorite': isFavorite,
+        },
+      );
+      if (res.statusCode == 200) {
+        if (res.data != null) {
+          bloggers = _parseBloggers(res.data);
+        }
       } else {
         throw badRequestException;
       }

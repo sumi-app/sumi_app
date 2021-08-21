@@ -33,8 +33,11 @@ class _BloggersScreenState extends State<BloggersScreen> {
               )
             : null,
         appBar: AppBar(
-          leading:
-              IconButton(icon: Icon(Icons.arrow_back_ios), onPressed: () {Navigator.pop(context);}),
+          leading: IconButton(
+              icon: Icon(Icons.arrow_back_ios),
+              onPressed: () {
+                Navigator.pop(context);
+              }),
           centerTitle: true,
           title: Text(
             'Блогеры',
@@ -145,9 +148,9 @@ class _FirstScreenState extends State<FirstScreen> {
                 return Expanded(
                   child: ListView.builder(
                     padding: EdgeInsets.symmetric(horizontal: 10),
-                    itemCount: state.bloggers.length,
+                    itemCount: state.unselectBloggers.length,
                     itemBuilder: (ctx, i) {
-                      final blogger = state.bloggers[i];
+                      final blogger = state.unselectBloggers[i];
                       return BlogCard(
                         isSelectingMode: isSelected,
                         blogger: blogger,

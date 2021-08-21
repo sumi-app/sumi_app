@@ -22,8 +22,14 @@ class BloggersBloc extends Bloc<BloggersEvent, BloggersState> {
   Stream<BloggersState> _mapLoadBloggersToState(LoadBlogegrs event) async* {
     yield BloggersLoading();
     try {
-      final bloggers = await ApiProvider.sdk.blogger.get();
-      yield BloggersLoaded(bloggers);
+      final unselectedBloggers =
+          await ApiProvider.sdk.blogger.get(isSelected: false);
+      final selectedBloggers =
+          await ApiProvider.sdk.blogger.get(isSelected: true);
+      yield BloggersLoaded(
+        selectedBloggers: selectedBloggers,
+        unselectBloggers: unselectedBloggers,
+      );
     } catch (e) {
       yield BloggersLoadingFailure();
     }
