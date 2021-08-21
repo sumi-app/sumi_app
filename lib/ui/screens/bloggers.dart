@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:sumi/bloc/bloggers/bloc.dart';
+import 'package:sumi_api/sumi_api.dart';
 
 class BloggersScreen extends StatefulWidget {
   const BloggersScreen({
@@ -142,23 +143,16 @@ class _FirstScreenState extends State<FirstScreen> {
             builder: (context, state) {
               if (state is BloggersLoaded) {
                 return Expanded(
-                  child: ListView(
+                  child: ListView.builder(
                     padding: EdgeInsets.symmetric(horizontal: 10),
-                    children: [
-                      BlogCard(
-                        onChanged: (v) {},
+                    itemCount: state.bloggers.length,
+                    itemBuilder: (ctx, i) {
+                      final blogger = state.bloggers[i];
+                      return BlogCard(
                         isSelectingMode: isSelected,
-                      ),
-                      BlogCard(
-                        isSelectingMode: isSelected,
-                      ),
-                      BlogCard(
-                        isSelectingMode: isSelected,
-                      ),
-                      BlogCard(
-                        isSelectingMode: isSelected,
-                      ),
-                    ],
+                        blogger: blogger,
+                      );
+                    },
                   ),
                 );
               }
@@ -177,9 +171,7 @@ class SecondScreen extends StatelessWidget {
     return Scaffold(
       body: ListView(
         padding: EdgeInsets.symmetric(horizontal: 10, vertical: 20),
-        children: [
-          BlogCard(),
-        ],
+        children: [],
       ),
     );
   }
@@ -190,7 +182,10 @@ class BlogCard extends StatefulWidget {
     Key? key,
     this.isSelectingMode = false,
     this.onChanged,
+    required this.blogger,
   }) : super(key: key);
+
+  final ApiBlogger blogger;
   final bool isSelectingMode;
   final Function(bool)? onChanged;
 
@@ -222,13 +217,15 @@ class _BlogCardState extends State<BlogCard> {
                   ),
                 ),
                 Transform(
-                    transform: Matrix4.translationValues(10, 10, 0),
-                    child: ClipOval(
-                        child: Image.network(
+                  transform: Matrix4.translationValues(10, 10, 0),
+                  child: ClipOval(
+                    child: Image.network(
                       "https://cdn.pixabay.com/photo/2021/06/15/12/17/instagram-6338401_960_720.png",
                       height: 25,
                       width: 25,
-                    ))),
+                    ),
+                  ),
+                ),
               ],
             ),
             Expanded(
@@ -240,7 +237,7 @@ class _BlogCardState extends State<BlogCard> {
                     Container(
                       padding: EdgeInsets.only(bottom: 5),
                       child: Text(
-                        'Птушкин',
+                        widget.blogger.name,
                         style: TextStyle(
                           fontFamily: "Rubik",
                           fontSize: 18,
@@ -250,7 +247,7 @@ class _BlogCardState extends State<BlogCard> {
                       ),
                     ),
                     Text(
-                      '4.900к Подписчиков',
+                      '${widget.blogger.count} Подписчиков',
                       style: TextStyle(
                         fontSize: 14,
                         fontWeight: FontWeight.w300,
@@ -258,7 +255,7 @@ class _BlogCardState extends State<BlogCard> {
                       ),
                     ),
                     Text(
-                      'Путешествия',
+                      '@${widget.blogger.login}',
                       style: TextStyle(
                         fontSize: 12,
                         fontWeight: FontWeight.w300,
