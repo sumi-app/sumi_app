@@ -24,6 +24,21 @@ class BloggerMethods extends BloggerMethodsInterace {
     return bloggers;
   }
 
+  @override
+  Future<void> select(List<int> id) async {
+    try {
+      final res = await _dio.patch(
+        '/blogger/select',
+        queryParameters: {'ids': id},
+      );
+      if (res.statusCode != 200) {
+        throw badRequestException;
+      }
+    } on Exception catch (e) {
+      throw SumiApiException(message: '$e');
+    }
+  }
+
   List<ApiBlogger> _parseBloggers(dynamic data) {
     return List<ApiBlogger>.from(
       (data as Iterable<dynamic>).map(
