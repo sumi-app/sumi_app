@@ -5,18 +5,26 @@ import 'package:sumi/utils/utils.dart';
 class BloggersBloc extends Bloc<BloggersEvent, BloggersState> {
   BloggersBloc() : super(BloggersLoading());
 
+  var _selectedIds = <int>[];
+
   @override
   Stream<BloggersState> mapEventToState(BloggersEvent event) async* {
     if (event is LoadBlogegrs) {
       yield* _mapLoadBloggersToState(event);
     }
     if (event is SelectBloggers) {
-      await _selectBloggers(event);
+      await _selectBloggers(event.ids);
+    }
+    if (event is SetupBloggers) {
+      _selectedIds = event.ids;
+    }
+    if (event is SelectSetupedBloggers) {
+      await _selectBloggers(_selectedIds);
     }
   }
 
-  Future<void> _selectBloggers(SelectBloggers event) async {
-    await ApiProvider.sdk.blogger.select(event.ids);
+  Future<void> _selectBloggers(List<int> ids) async {
+    await ApiProvider.sdk.blogger.select(ids);
     add(LoadBlogegrs(withLoading: false));
   }
 

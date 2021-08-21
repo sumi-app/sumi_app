@@ -24,7 +24,10 @@ class _BloggersScreenState extends State<BloggersScreen> {
         floatingActionButton: _selectionMode
             ? FloatingActionButton(
                 elevation: 0,
-                onPressed: () {},
+                onPressed: () {
+                  BlocProvider.of<BloggersBloc>(context)
+                      .add(SelectSetupedBloggers());
+                },
                 child: SvgPicture.asset(
                   'assets/icons/letter.svg',
                   height: 60,
@@ -81,6 +84,9 @@ class FirstScreen extends StatefulWidget {
 
 class _FirstScreenState extends State<FirstScreen> {
   bool isSelected = false;
+
+  final _selectedList = <int>[];
+
   List choseall = [
     GestureDetector(
       onTap: () {},
@@ -96,55 +102,66 @@ class _FirstScreenState extends State<FirstScreen> {
   ];
   @override
   Widget build(BuildContext context) {
-    return Column(
-      children: [
-        Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            Container(
-              child: TextButton(
-                onPressed: () {},
-                child: Text(
-                  'Фильтр',
-                  style: TextStyle(
-                    fontSize: 16,
-                    fontWeight: FontWeight.w300,
-                    color: Theme.of(context).primaryColor,
-                  ),
-                ),
-              ),
-            ),
-            Row(
-              children: [
-                Container(
-                  child: Text(
-                    'Выбрать всех',
-                    style: TextStyle(
-                      fontSize: 16,
-                      fontWeight: FontWeight.w300,
-                      color: Theme.of(context).primaryColor,
+    return BlocBuilder<BloggersBloc, BloggersState>(
+      builder: (context, state) {
+        if (state is BloggersLoaded) {
+          return Column(
+            children: [
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Container(
+                    child: TextButton(
+                      onPressed: () {},
+                      child: Text(
+                        'Фильтр',
+                        style: TextStyle(
+                          fontSize: 16,
+                          fontWeight: FontWeight.w300,
+                          color: Theme.of(context).primaryColor,
+                        ),
+                      ),
                     ),
                   ),
-                ),
-                Checkbox(
-                  checkColor: Theme.of(context).primaryColor,
-                  activeColor: Colors.white,
-                  value: isSelected,
-                  onChanged: (value) {
-                    widget.onSelected(value ?? false);
-                    setState(() {
-                      isSelected = value ?? false;
-                    });
-                  },
-                ),
-              ],
-            ),
-          ],
-        ),
-        BlocBuilder<BloggersBloc, BloggersState>(
-          builder: (context, state) {
-            if (state is BloggersLoaded) {
-              return Expanded(
+                  Row(
+                    children: [
+                      Container(
+                        child: Text(
+                          'Выбрать всех',
+                          style: TextStyle(
+                            fontSize: 16,
+                            fontWeight: FontWeight.w300,
+                            color: Theme.of(context).primaryColor,
+                          ),
+                        ),
+                      ),
+                      Checkbox(
+                        checkColor: Theme.of(context).primaryColor,
+                        activeColor: Colors.white,
+                        value: isSelected,
+                        onChanged: (value) {
+                          final v = value ?? false;
+
+                          if (v) {
+                            _selectedList.addAll(state.unselectBloggers
+                                .map((e) => e.id)
+                                .toList());
+                          } else {
+                            _selectedList.clear();
+                          }
+
+                          BlocProvider.of<BloggersBloc>(context)
+                              .add(SetupBloggers(_selectedList));
+
+                          widget.onSelected(v);
+                          setState(() => isSelected = v);
+                        },
+                      ),
+                    ],
+                  ),
+                ],
+              ),
+              Expanded(
                 child: ListView.builder(
                   padding: EdgeInsets.symmetric(horizontal: 10),
                   itemCount: state.unselectBloggers.length,
@@ -153,15 +170,25 @@ class _FirstScreenState extends State<FirstScreen> {
                     return BlogCard(
                       isSelectingMode: isSelected,
                       blogger: blogger,
+                      onChanged: (v) {
+                        if (v) {
+                          _selectedList.add(blogger.id);
+                        } else {
+                          _selectedList.remove(blogger.id);
+                        }
+
+                        BlocProvider.of<BloggersBloc>(context)
+                            .add(SetupBloggers(_selectedList));
+                      },
                     );
                   },
                 ),
-              );
-            }
-            return CircularProgressIndicator();
-          },
-        ),
-      ],
+              ),
+            ],
+          );
+        }
+        return CircularProgressIndicator();
+      },
     );
   }
 }
@@ -307,7 +334,6 @@ class _BlogCardState extends State<BlogCard> {
                   if (widget.onChanged != null) {
                     widget.onChanged!(v ?? false);
                   }
-                  ;
                   setState(() {
                     cardSelector = v ?? false;
                   });

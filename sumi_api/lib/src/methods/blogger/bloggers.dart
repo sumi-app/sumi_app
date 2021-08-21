@@ -39,8 +39,7 @@ class BloggerMethods extends BloggerMethodsInterace {
   Future<void> select(List<int> id) async {
     try {
       final res = await _dio.patch(
-        '/blogger/select',
-        queryParameters: {'ids': id},
+        '/blogger/select?ids=$id',
       );
       if (res.statusCode != 200) {
         throw badRequestException;

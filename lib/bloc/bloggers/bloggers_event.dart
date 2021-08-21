@@ -20,3 +20,13 @@ class SelectBloggers extends BloggersEvent {
   @override
   List<Object?> get props => super.props..add(ids);
 }
+
+class SetupBloggers extends BloggersEvent {
+  SetupBloggers(this.ids);
+  final List<int> ids;
+
+  @override
+  List<Object?> get props => super.props..add(ids);
+}
+
+class SelectSetupedBloggers extends BloggersEvent {}
