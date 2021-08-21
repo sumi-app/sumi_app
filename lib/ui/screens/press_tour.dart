@@ -197,8 +197,26 @@ class TopPressTourBar extends StatelessWidget {
               ],
             ),
             Row(
-              mainAxisAlignment: MainAxisAlignment.end,
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
+                Container(
+                  margin: EdgeInsets.fromLTRB(10, 45, 0, 0),
+                  child: ElevatedButton(
+                    style: ElevatedButton.styleFrom(
+                        primary: Colors.white,
+                        fixedSize: Size(115, 15),
+                        shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(10))),
+                    child: Text(
+                      "Пригласить",
+                      style: TextStyle(
+                          fontSize: 14,
+                          fontWeight: FontWeight.w300,
+                          color: Theme.of(context).primaryColor),
+                    ),
+                    onPressed: () {},
+                  ),
+                ),
                 Container(
                   margin: EdgeInsets.fromLTRB(0, 65, 10, 3),
                   child: Text(
@@ -215,6 +233,7 @@ class TopPressTourBar extends StatelessWidget {
             Row(
               mainAxisAlignment: MainAxisAlignment.end,
               children: [
+                
                 Container(
                   margin: EdgeInsets.fromLTRB(0, 0, 3, 3),
                   child: Text(

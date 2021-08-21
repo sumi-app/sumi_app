@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 
 class ArchiveScreen extends StatelessWidget {
   const ArchiveScreen({Key? key}) : super(key: key);
@@ -143,17 +142,10 @@ class ArchiveBloger extends StatelessWidget {
                 ),
               ),
             ),
-            GestureDetector(
-              onTap: () {},
-              child: Container(
-                padding: EdgeInsets.only(right: 10),
-                child: SvgPicture.asset(
-                  'assets/icons/letter.svg',
-                  height: 40,
-                  width: 40,
-                ),
-              ),
-            )
+            IconButton (
+              icon: Icon(Icons.close, color: Colors.red,),
+              onPressed: () {}
+          )
           ],
         ),
       ),
