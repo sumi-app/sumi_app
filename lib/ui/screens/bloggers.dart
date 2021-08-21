@@ -34,7 +34,7 @@ class _BloggersScreenState extends State<BloggersScreen> {
             : null,
         appBar: AppBar(
           leading:
-              IconButton(icon: Icon(Icons.arrow_back_ios), onPressed: () {}),
+              IconButton(icon: Icon(Icons.arrow_back_ios), onPressed: () {Navigator.pop(context);}),
           centerTitle: true,
           title: Text(
             'Блогеры',

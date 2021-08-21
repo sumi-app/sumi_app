@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:sumi/ui/routes/app_router.gr.dart';
+import 'package:auto_route/auto_route.dart';
 
 class PressTourScreen extends StatelessWidget {
   const PressTourScreen({
@@ -157,7 +159,7 @@ class TopPressTourBar extends StatelessWidget {
           ),
         ),
         IconButton(
-            onPressed: () {},
+            onPressed: () {Navigator.pop(context);},
             icon: Icon(
               Icons.arrow_back_ios_new,
               color: Colors.white,
@@ -214,7 +216,7 @@ class TopPressTourBar extends StatelessWidget {
                           fontWeight: FontWeight.w300,
                           color: Theme.of(context).primaryColor),
                     ),
-                    onPressed: () {},
+                    onPressed: () {AutoRouter.of(context).push(BloggersScreenRoute());},
                   ),
                 ),
                 Container(
