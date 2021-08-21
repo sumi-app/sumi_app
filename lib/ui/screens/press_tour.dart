@@ -11,6 +11,7 @@ class PressTourScreen extends StatelessWidget {
         body: Container(
       child: SafeArea(
         child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Stack(
               //alignment: Alignment.topCenter,
@@ -119,14 +120,24 @@ class PressTourScreen extends StatelessWidget {
               ],
             ),
             Container(
+              margin: EdgeInsets.all(20),
               child: Text(
-                '4/5',
+                'Описание',
                 style: TextStyle(
-                  fontSize: 44,
+                  fontSize: 18,
                   fontWeight: FontWeight.w500,
                   color: Theme.of(context).primaryColor,
                 ),
               ),
+            ),
+            Container(
+              margin: EdgeInsets.symmetric(horizontal: 20),
+              child: Text('Сама́ра — город в Среднем Поволжье России, центр Поволжского экономического района и Самарской области, образует городской округ Самара. Город трудовой и боевой славы. Город трудовой доблести. Население — 1 144 759 чел., восьмой по численности населения город России.',
+                style: TextStyle(
+                  fontSize: 14,
+                  fontWeight: FontWeight.w300,
+                  color: Colors.grey,
+                ),)
             )
           ],
         ),
