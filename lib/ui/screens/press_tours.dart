@@ -1,4 +1,68 @@
+import 'package:custom_navigation_bar/custom_navigation_bar.dart';
 import 'package:flutter/material.dart';
+import 'package:sumi/ui/screens/archive.dart';
+
+class Home extends StatefulWidget {
+  Home({Key? key}) : super(key: key);
+
+  @override
+  _HomeState createState() => _HomeState();
+}
+
+class _HomeState extends State<Home> {
+  final _controller = PageController();
+  var _slectedIndex = 0;
+
+  @override
+  Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+    return Scaffold(
+      body: PageView(
+        controller: _controller,
+        children: [
+          PressToursScreen(),
+          ArchiveScreen(),
+        ],
+      ),
+      bottomNavigationBar: CustomNavigationBar(
+        iconSize: 30.0,
+        scaleFactor: 0.1,
+        selectedColor: theme.primaryColor,
+        strokeColor: theme.primaryColor,
+        unSelectedColor: Colors.grey,
+        backgroundColor: Colors.white,
+        items: [
+          CustomNavigationBarItem(
+            icon: Icon(Icons.alt_route_sharp),
+            title: Text(
+              'Маршруты',
+              style: _style(0, theme),
+            ),
+          ),
+          CustomNavigationBarItem(
+            icon: Icon(Icons.people),
+            title: Text(
+              'Блогеры',
+              style: _style(1, theme),
+            ),
+          ),
+        ],
+        currentIndex: _slectedIndex,
+        onTap: (i) {
+          setState(() => _slectedIndex = i);
+          _controller.jumpToPage(i);
+        },
+      ),
+    );
+  }
+
+  TextStyle _style(int index, ThemeData theme) {
+    return TextStyle(
+      color: index == _slectedIndex ? theme.primaryColor : theme.hintColor,
+      fontSize: 12,
+    );
+  }
+}
 
 class PressToursScreen extends StatelessWidget {
   const PressToursScreen({

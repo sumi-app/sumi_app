@@ -15,9 +15,9 @@ class HomeNavigator extends StatelessWidget {
         children: [
           TextButton(
             onPressed: () {
-              AutoRouter.of(context).push(PressToursScreenRoute());
+              AutoRouter.of(context).push(HomeRoute());
             },
-            child: Text('Прес туры'),
+            child: Text('Домашняя'),
           ),
           TextButton(
             onPressed: () {

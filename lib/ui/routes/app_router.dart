@@ -1,4 +1,5 @@
 import 'package:auto_route/auto_route.dart';
+import 'package:sumi/ui/screens/archive.dart';
 import 'package:sumi/ui/screens/bloggers.dart';
 import 'package:sumi/ui/screens/press_tour.dart';
 import 'package:sumi/ui/screens/press_tours.dart';
@@ -18,9 +19,11 @@ import 'package:sumi/ui/widgets/super_structures/super_structures.dart';
   replaceInRouteName: '',
   routes: <AutoRoute>[
     AutoRoute(page: HomeNavigator, initial: true),
+    AutoRoute(page: Home),
     AutoRoute(page: PressToursScreen),
     AutoRoute(page: PressTourScreen),
     AutoRoute(page: BloggersScreen),
+    AutoRoute(page: ArchiveScreen),
   ],
 )
 class $AppRouter {}

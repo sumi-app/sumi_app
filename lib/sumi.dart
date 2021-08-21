@@ -21,13 +21,5 @@ class Sumi extends StatelessWidget {
         return router!;
       },
     );
-
-    // MaterialApp(
-    //   title: 'Sumi',
-    //   theme: ThemeData(
-    //     primarySwatch: Colors.blue,
-    //   ),
-    //   home: HomeNavigator(),
-    // );
   }
 }
