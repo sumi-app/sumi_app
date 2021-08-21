@@ -62,8 +62,11 @@ class PressTourScreen extends StatelessWidget {
                       builder: (context, state) {
                         if (state is ReviewsLoaded) {
                           return Column(
-                            children:
-                                state.reviews.map((e) => PostCard()).toList(),
+                            children: state.reviews
+                                .map((e) => PostCard(
+                                      review: e,
+                                    ))
+                                .toList(),
                           );
                         }
                         return LinearProgressIndicator();
