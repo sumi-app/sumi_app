@@ -5,5 +5,6 @@ abstract class BloggerMethodsInterace {
     required bool isSelected,
     bool isFavorite = false,
   });
+  Future<ApiBlogger> getById(int id);
   Future<void> select(List<int> id);
 }

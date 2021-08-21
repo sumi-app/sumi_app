@@ -56,4 +56,21 @@ class BloggerMethods extends BloggerMethodsInterace {
       ),
     );
   }
+
+  @override
+  Future<ApiBlogger> getById(int id) async {
+    try {
+      final res = await _dio.get(
+        '/blogger',
+        queryParameters: {'id': id},
+      );
+      if (res.statusCode == 200 && res.data != null) {
+        return ApiBlogger.fromJson(res.data as Map<String, dynamic>);
+      } else {
+        throw badRequestException;
+      }
+    } on Exception catch (e) {
+      throw SumiApiException(message: '$e');
+    }
+  }
 }
