@@ -96,17 +96,29 @@ class _FirstScreenState extends State<FirstScreen> {
   ];
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: Column(
-        children: [
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Container(
-                child: TextButton(
-                  onPressed: () {},
+    return Column(
+      children: [
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Container(
+              child: TextButton(
+                onPressed: () {},
+                child: Text(
+                  'Фильтр',
+                  style: TextStyle(
+                    fontSize: 16,
+                    fontWeight: FontWeight.w300,
+                    color: Theme.of(context).primaryColor,
+                  ),
+                ),
+              ),
+            ),
+            Row(
+              children: [
+                Container(
                   child: Text(
-                    'Фильтр',
+                    'Выбрать всех',
                     style: TextStyle(
                       fontSize: 16,
                       fontWeight: FontWeight.w300,
@@ -114,56 +126,42 @@ class _FirstScreenState extends State<FirstScreen> {
                     ),
                   ),
                 ),
-              ),
-              Row(
-                children: [
-                  Container(
-                    child: Text(
-                      'Выбрать всех',
-                      style: TextStyle(
-                        fontSize: 16,
-                        fontWeight: FontWeight.w300,
-                        color: Theme.of(context).primaryColor,
-                      ),
-                    ),
-                  ),
-                  Checkbox(
-                    checkColor: Theme.of(context).primaryColor,
-                    activeColor: Colors.white,
-                    value: isSelected,
-                    onChanged: (value) {
-                      widget.onSelected(value ?? false);
-                      setState(() {
-                        isSelected = value ?? false;
-                      });
-                    },
-                  ),
-                ],
-              ),
-            ],
-          ),
-          BlocBuilder<BloggersBloc, BloggersState>(
-            builder: (context, state) {
-              if (state is BloggersLoaded) {
-                return Expanded(
-                  child: ListView.builder(
-                    padding: EdgeInsets.symmetric(horizontal: 10),
-                    itemCount: state.unselectBloggers.length,
-                    itemBuilder: (ctx, i) {
-                      final blogger = state.unselectBloggers[i];
-                      return BlogCard(
-                        isSelectingMode: isSelected,
-                        blogger: blogger,
-                      );
-                    },
-                  ),
-                );
-              }
-              return CircularProgressIndicator();
-            },
-          ),
-        ],
-      ),
+                Checkbox(
+                  checkColor: Theme.of(context).primaryColor,
+                  activeColor: Colors.white,
+                  value: isSelected,
+                  onChanged: (value) {
+                    widget.onSelected(value ?? false);
+                    setState(() {
+                      isSelected = value ?? false;
+                    });
+                  },
+                ),
+              ],
+            ),
+          ],
+        ),
+        BlocBuilder<BloggersBloc, BloggersState>(
+          builder: (context, state) {
+            if (state is BloggersLoaded) {
+              return Expanded(
+                child: ListView.builder(
+                  padding: EdgeInsets.symmetric(horizontal: 10),
+                  itemCount: state.unselectBloggers.length,
+                  itemBuilder: (ctx, i) {
+                    final blogger = state.unselectBloggers[i];
+                    return BlogCard(
+                      isSelectingMode: isSelected,
+                      blogger: blogger,
+                    );
+                  },
+                ),
+              );
+            }
+            return CircularProgressIndicator();
+          },
+        ),
+      ],
     );
   }
 }
@@ -171,11 +169,22 @@ class _FirstScreenState extends State<FirstScreen> {
 class SecondScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: ListView(
-        padding: EdgeInsets.symmetric(horizontal: 10, vertical: 20),
-        children: [],
-      ),
+    return BlocBuilder<BloggersBloc, BloggersState>(
+      builder: (context, state) {
+        if (state is BloggersLoaded) {
+          return ListView.builder(
+            padding: EdgeInsets.symmetric(horizontal: 10),
+            itemCount: state.selectedBloggers.length,
+            itemBuilder: (ctx, i) {
+              final blogger = state.selectedBloggers[i];
+              return BlogCard(
+                blogger: blogger,
+              );
+            },
+          );
+        }
+        return CircularProgressIndicator();
+      },
     );
   }
 }
@@ -203,6 +212,7 @@ class _BlogCardState extends State<BlogCard> {
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
     return Container(
+      margin: EdgeInsets.symmetric(vertical: 5),
       padding: EdgeInsets.only(bottom: 10),
       child: InkWell(
         onTap: () {},
@@ -220,7 +230,7 @@ class _BlogCardState extends State<BlogCard> {
                   ),
                 ),
                 Transform(
-                  transform: Matrix4.translationValues(10, 10, 0),
+                  transform: Matrix4.translationValues(5, 5, 0),
                   child: ClipOval(
                     child: Image.network(
                       "https://cdn.pixabay.com/photo/2021/06/15/12/17/instagram-6338401_960_720.png",
@@ -269,9 +279,14 @@ class _BlogCardState extends State<BlogCard> {
                 ),
               ),
             ),
+
+            //TODO: is not selected
             if (!widget.isSelectingMode)
               GestureDetector(
-                onTap: () {},
+                onTap: () {
+                  BlocProvider.of<BloggersBloc>(context)
+                      .add(SelectBloggers([widget.blogger.id]));
+                },
                 child: Container(
                   padding: EdgeInsets.only(right: 10),
                   child: SvgPicture.asset(
@@ -281,20 +296,23 @@ class _BlogCardState extends State<BlogCard> {
                   ),
                 ),
               ),
+
+            //TODO: is not selected
             if (widget.isSelectingMode)
               Checkbox(
-                  checkColor: Theme.of(context).primaryColor,
-                  activeColor: Colors.white,
-                  value: cardSelector,
-                  onChanged: (v) {
-                    if (widget.onChanged != null) {
-                      widget.onChanged!(v ?? false);
-                    }
-                    ;
-                    setState(() {
-                      cardSelector = v ?? false;
-                    });
-                  })
+                checkColor: Theme.of(context).primaryColor,
+                activeColor: Colors.white,
+                value: cardSelector,
+                onChanged: (v) {
+                  if (widget.onChanged != null) {
+                    widget.onChanged!(v ?? false);
+                  }
+                  ;
+                  setState(() {
+                    cardSelector = v ?? false;
+                  });
+                },
+              )
           ],
         ),
       ),

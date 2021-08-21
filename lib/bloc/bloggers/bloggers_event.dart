@@ -5,7 +5,13 @@ class BloggersEvent extends Equatable {
   List<Object?> get props => [];
 }
 
-class LoadBlogegrs extends BloggersEvent {}
+class LoadBlogegrs extends BloggersEvent {
+  LoadBlogegrs({this.withLoading = true});
+  final bool withLoading;
+
+  @override
+  List<Object?> get props => super.props..add(withLoading);
+}
 
 class SelectBloggers extends BloggersEvent {
   SelectBloggers(this.ids);

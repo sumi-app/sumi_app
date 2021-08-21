@@ -17,10 +17,13 @@ class BloggersBloc extends Bloc<BloggersEvent, BloggersState> {
 
   Future<void> _selectBloggers(SelectBloggers event) async {
     await ApiProvider.sdk.blogger.select(event.ids);
+    add(LoadBlogegrs(withLoading: false));
   }
 
   Stream<BloggersState> _mapLoadBloggersToState(LoadBlogegrs event) async* {
-    yield BloggersLoading();
+    if (event.withLoading) {
+      yield BloggersLoading();
+    }
     try {
       final unselectedBloggers =
           await ApiProvider.sdk.blogger.get(isSelected: false);
