@@ -1,16 +1,34 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
-class BloggersScreen extends StatelessWidget {
+class BloggersScreen extends StatefulWidget {
   const BloggersScreen({
     Key? key,
   }) : super(key: key);
+
+  @override
+  _BloggersScreenState createState() => _BloggersScreenState();
+}
+
+class _BloggersScreenState extends State<BloggersScreen> {
+  var _selectionMode = false;
 
   @override
   Widget build(BuildContext context) {
     return DefaultTabController(
       length: 2,
       child: Scaffold(
+        floatingActionButton: _selectionMode
+            ? FloatingActionButton(
+                elevation: 0,
+                onPressed: () {},
+                child: SvgPicture.asset(
+                  'assets/icons/letter.svg',
+                  height: 60,
+                  width: 60,
+                ),
+              )
+            : null,
         appBar: AppBar(
           leading:
               IconButton(icon: Icon(Icons.arrow_back_ios), onPressed: () {}),
@@ -18,7 +36,7 @@ class BloggersScreen extends StatelessWidget {
           title: Text(
             'Блогеры',
             style: TextStyle(
-              fontSize: 24,
+              fontSize: 20,
               fontWeight: FontWeight.w200,
               color: Colors.black,
             ),
@@ -32,7 +50,13 @@ class BloggersScreen extends StatelessWidget {
         ),
         body: TabBarView(
           children: [
-            FirstScreen(),
+            FirstScreen(
+              onSelected: (bool selected) {
+                setState(() {
+                  _selectionMode = selected;
+                });
+              },
+            ),
             SecondScreen(),
           ],
         ),
@@ -41,17 +65,91 @@ class BloggersScreen extends StatelessWidget {
   }
 }
 
-class FirstScreen extends StatelessWidget {
+class FirstScreen extends StatefulWidget {
+  final Function(bool selected) onSelected;
+
+  const FirstScreen({Key? key, required this.onSelected}) : super(key: key);
+  @override
+  _FirstScreenState createState() => _FirstScreenState();
+}
+
+class _FirstScreenState extends State<FirstScreen> {
+  bool isSelected = false;
+  List choseall = [
+    GestureDetector(
+      onTap: () {},
+      child: Container(
+        padding: EdgeInsets.only(right: 10),
+        child: SvgPicture.asset(
+          'assets/icons/letter.svg',
+          height: 40,
+          width: 40,
+        ),
+      ),
+    ),
+  ];
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: ListView(
         padding: EdgeInsets.symmetric(horizontal: 10),
         children: [
-          BlogCard(),
-          BlogCard(),
-          BlogCard(),
-          BlogCard(),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Container(
+                child: TextButton(
+                  onPressed: () {},
+                  child: Text(
+                    'Фильтр',
+                    style: TextStyle(
+                      fontSize: 16,
+                      fontWeight: FontWeight.w300,
+                      color: Theme.of(context).primaryColor,
+                    ),
+                  ),
+                ),
+              ),
+              Row(
+                children: [
+                  Container(
+                    child: Text(
+                      'Выбрать всех',
+                      style: TextStyle(
+                        fontSize: 16,
+                        fontWeight: FontWeight.w300,
+                        color: Theme.of(context).primaryColor,
+                      ),
+                    ),
+                  ),
+                  Checkbox(
+                    checkColor: Theme.of(context).primaryColor,
+                    activeColor: Colors.white,
+                    value: isSelected,
+                    onChanged: (value) {
+                      widget.onSelected(value ?? false);
+                      setState(() {
+                        isSelected = value ?? false;
+                      });
+                    },
+                  ),
+                ],
+              ),
+            ],
+          ),
+          BlogCard(
+            onChanged: (v) {},
+            isSelectingMode: isSelected,
+          ),
+          BlogCard(
+            isSelectingMode: isSelected,
+          ),
+          BlogCard(
+            isSelectingMode: isSelected,
+          ),
+          BlogCard(
+            isSelectingMode: isSelected,
+          ),
         ],
       ),
     );
@@ -63,7 +161,7 @@ class SecondScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       body: ListView(
-        padding: EdgeInsets.symmetric(horizontal: 10),
+        padding: EdgeInsets.symmetric(horizontal: 10, vertical: 20),
         children: [
           BlogCard(),
         ],
@@ -72,16 +170,27 @@ class SecondScreen extends StatelessWidget {
   }
 }
 
-class BlogCard extends StatelessWidget {
+class BlogCard extends StatefulWidget {
   const BlogCard({
     Key? key,
+    this.isSelectingMode = false,
+    this.onChanged,
   }) : super(key: key);
+  final bool isSelectingMode;
+  final Function(bool)? onChanged;
 
+  @override
+  _BlogCardState createState() => _BlogCardState();
+}
+
+bool cardSelector = true;
+
+class _BlogCardState extends State<BlogCard> {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
     return Container(
-      padding: EdgeInsets.only(top: 20),
+      padding: EdgeInsets.only(bottom: 10),
       child: InkWell(
         onTap: () {},
         child: Row(
@@ -98,11 +207,13 @@ class BlogCard extends StatelessWidget {
                   ),
                 ),
                 Transform(
-                  transform: Matrix4.translationValues(10, 10, 0),
-                  child:ClipOval(child: 
-                  Image.network("https://cdn.pixabay.com/photo/2021/06/15/12/17/instagram-6338401_960_720.png", height: 25,width: 25,)
-                  )                      
-                ),
+                    transform: Matrix4.translationValues(10, 10, 0),
+                    child: ClipOval(
+                        child: Image.network(
+                      "https://cdn.pixabay.com/photo/2021/06/15/12/17/instagram-6338401_960_720.png",
+                      height: 25,
+                      width: 25,
+                    ))),
               ],
             ),
             Expanded(
@@ -143,17 +254,32 @@ class BlogCard extends StatelessWidget {
                 ),
               ),
             ),
-            GestureDetector(
-              onTap: () {},
-              child: Container(
-                padding: EdgeInsets.only(right: 10),
-                child: SvgPicture.asset(
-                  'assets/icons/letter.svg',
-                  height: 40,
-                  width: 40,
+            if (!widget.isSelectingMode)
+              GestureDetector(
+                onTap: () {},
+                child: Container(
+                  padding: EdgeInsets.only(right: 10),
+                  child: SvgPicture.asset(
+                    'assets/icons/letter.svg',
+                    height: 40,
+                    width: 40,
+                  ),
                 ),
               ),
-            )
+            if (widget.isSelectingMode)
+              Checkbox(
+                  checkColor: Theme.of(context).primaryColor,
+                  activeColor: Colors.white,
+                  value: cardSelector,
+                  onChanged: (v) {
+                    if (widget.onChanged != null) {
+                      widget.onChanged!(v ?? false);
+                    }
+                    ;
+                    setState(() {
+                      cardSelector = v ?? false;
+                    });
+                  })
           ],
         ),
       ),

@@ -78,7 +78,7 @@ class PressToursScreen extends StatelessWidget {
         title: Text(
           'Маршруты',
           style: TextStyle(
-            fontSize: 24,
+            fontSize: 20,
             fontWeight: FontWeight.w200,
             color: Colors.black,
           ),
