@@ -18,6 +18,7 @@ ApiBlogger _$ApiBloggerFromJson(Map<String, dynamic> json) {
     avatar: json['avatar'] as String,
     cost: json['cost'] as int,
     coverage: json['coverage'] as int,
+    isSelected: json['is_selected'] as bool,
   );
 }
 
@@ -33,4 +34,5 @@ Map<String, dynamic> _$ApiBloggerToJson(ApiBlogger instance) =>
       'avatar': instance.avatar,
       'cost': instance.cost,
       'coverage': instance.coverage,
+      'is_selected': instance.isSelected,
     };

@@ -173,7 +173,7 @@ class SecondScreen extends StatelessWidget {
       builder: (context, state) {
         if (state is BloggersLoaded) {
           return ListView.builder(
-            padding: EdgeInsets.symmetric(horizontal: 10),
+            padding: EdgeInsets.symmetric(horizontal: 10, vertical: 10),
             itemCount: state.selectedBloggers.length,
             itemBuilder: (ctx, i) {
               final blogger = state.selectedBloggers[i];
@@ -281,7 +281,7 @@ class _BlogCardState extends State<BlogCard> {
             ),
 
             //TODO: is not selected
-            if (!widget.isSelectingMode)
+            if (!widget.isSelectingMode && !widget.blogger.isSelected)
               GestureDetector(
                 onTap: () {
                   BlocProvider.of<BloggersBloc>(context)
@@ -298,7 +298,7 @@ class _BlogCardState extends State<BlogCard> {
               ),
 
             //TODO: is not selected
-            if (widget.isSelectingMode)
+            if (widget.isSelectingMode && !widget.blogger.isSelected)
               Checkbox(
                 checkColor: Theme.of(context).primaryColor,
                 activeColor: Colors.white,

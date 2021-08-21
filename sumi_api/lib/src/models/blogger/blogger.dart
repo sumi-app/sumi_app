@@ -15,6 +15,7 @@ class ApiBlogger {
     required this.avatar,
     required this.cost,
     required this.coverage,
+    required this.isSelected,
   });
 
   final int id;
@@ -35,6 +36,8 @@ class ApiBlogger {
   final int cost;
   @JsonKey(required: false)
   final int coverage;
+  @JsonKey(name: 'is_selected')
+  final bool isSelected;
 
   factory ApiBlogger.fromJson(Map<String, dynamic> json) =>
       _$ApiBloggerFromJson(json);

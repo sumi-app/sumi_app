@@ -49,8 +49,9 @@ class AppRouter extends _i1.RootStackRouter {
 
   @override
   List<_i1.RouteConfig> get routes => [
-        _i1.RouteConfig(HomeRoute.name, path: '/Home'),
-        _i1.RouteConfig(PressToursScreenRoute.name, path: '/'),
+        _i1.RouteConfig(HomeRoute.name, path: '/'),
+        _i1.RouteConfig(PressToursScreenRoute.name,
+            path: '/press-tours-screen'),
         _i1.RouteConfig(PressTourScreenRoute.name, path: '/press-tour-screen'),
         _i1.RouteConfig(BloggersScreenRoute.name, path: '/bloggers-screen'),
         _i1.RouteConfig(ArchiveScreenRoute.name, path: '/archive-screen')
@@ -59,7 +60,7 @@ class AppRouter extends _i1.RootStackRouter {
 
 class HomeRoute extends _i1.PageRouteInfo<HomeRouteArgs> {
   HomeRoute({_i2.Key? key})
-      : super(name, path: '/Home', args: HomeRouteArgs(key: key));
+      : super(name, path: '/', args: HomeRouteArgs(key: key));
 
   static const String name = 'HomeRoute';
 }
@@ -71,7 +72,7 @@ class HomeRouteArgs {
 }
 
 class PressToursScreenRoute extends _i1.PageRouteInfo {
-  const PressToursScreenRoute() : super(name, path: '/');
+  const PressToursScreenRoute() : super(name, path: '/press-tours-screen');
 
   static const String name = 'PressToursScreenRoute';
 }
