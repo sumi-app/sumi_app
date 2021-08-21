@@ -251,7 +251,7 @@ class _BlogCardState extends State<BlogCard> {
                 ClipRRect(
                   borderRadius: BorderRadius.circular(10),
                   child: Image.network(
-                    "https://picsum.photos/250?image=9",
+                    widget.blogger.avatar,
                     width: 62,
                     height: 62,
                   ),
