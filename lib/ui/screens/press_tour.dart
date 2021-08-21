@@ -13,73 +13,70 @@ class PressTourScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        body: Container(
-      child: SafeArea(
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            TopPressTourBar(),
-            Flexible(
-              child: SingleChildScrollView(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Container(
-                      margin: EdgeInsets.all(20),
-                      child: Text(
-                        'Описание',
-                        style: TextStyle(
-                          fontSize: 18,
-                          fontWeight: FontWeight.w500,
-                          color: Theme.of(context).primaryColor,
-                        ),
+      body: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          TopPressTourBar(),
+          Flexible(
+            child: SingleChildScrollView(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Container(
+                    margin: EdgeInsets.all(20),
+                    child: Text(
+                      'Описание',
+                      style: TextStyle(
+                        fontSize: 18,
+                        fontWeight: FontWeight.w500,
+                        color: Theme.of(context).primaryColor,
                       ),
                     ),
-                    Container(
-                        margin: EdgeInsets.symmetric(horizontal: 20),
-                        child: Text(
-                          'Сама́ра — город в Среднем Поволжье России, центр Поволжского экономического района и Самарской области, образует городской округ Самара. Город трудовой и боевой славы. Город трудовой доблести. Население — 1 144 759 чел., восьмой по численности населения город России.',
-                          style: TextStyle(
-                            fontSize: 14,
-                            fontWeight: FontWeight.w300,
-                            color: Colors.grey,
-                          ),
-                        )),
-                    Padding(padding: EdgeInsets.only(bottom: 10)),
-                    Divider(),
-                    Container(
-                      margin: EdgeInsets.fromLTRB(20, 10, 0, 0),
+                  ),
+                  Container(
+                      margin: EdgeInsets.symmetric(horizontal: 20),
                       child: Text(
-                        'Посты:',
+                        'Сама́ра — город в Среднем Поволжье России, центр Поволжского экономического района и Самарской области, образует городской округ Самара. Город трудовой и боевой славы. Город трудовой доблести. Население — 1 144 759 чел., восьмой по численности населения город России.',
                         style: TextStyle(
-                          fontSize: 18,
-                          fontWeight: FontWeight.w500,
-                          color: Theme.of(context).primaryColor,
+                          fontSize: 14,
+                          fontWeight: FontWeight.w300,
+                          color: Colors.grey,
                         ),
+                      )),
+                  Padding(padding: EdgeInsets.only(bottom: 10)),
+                  Divider(),
+                  Container(
+                    margin: EdgeInsets.fromLTRB(20, 10, 0, 0),
+                    child: Text(
+                      'Посты:',
+                      style: TextStyle(
+                        fontSize: 18,
+                        fontWeight: FontWeight.w500,
+                        color: Theme.of(context).primaryColor,
                       ),
                     ),
-                    BlocBuilder<ReviewBloc, ReviewsState>(
-                      builder: (context, state) {
-                        if (state is ReviewsLoaded) {
-                          return Column(
-                            children: state.reviews
-                                .map((e) => PostCard(
-                                      review: e,
-                                    ))
-                                .toList(),
-                          );
-                        }
-                        return LinearProgressIndicator();
-                      },
-                    ),
-                  ],
-                ),
+                  ),
+                  BlocBuilder<ReviewBloc, ReviewsState>(
+                    builder: (context, state) {
+                      if (state is ReviewsLoaded) {
+                        return Column(
+                          children: state.reviews
+                              .map((e) => PostCard(
+                                    review: e,
+                                  ))
+                              .toList(),
+                        );
+                      }
+                      return LinearProgressIndicator();
+                    },
+                  ),
+                ],
               ),
             ),
-          ],
-        ),
+          ),
+        ],
       ),
-    ));
+    );
   }
 }
 
@@ -90,8 +87,9 @@ class TopPressTourBar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final size = MediaQuery.of(context).size;
     return Stack(
-      //alignment: Alignment.topCenter,
+      alignment: Alignment.bottomRight,
       children: [
         Container(
           height: 240,
@@ -102,119 +100,145 @@ class TopPressTourBar extends StatelessWidget {
             ),
           ),
         ),
-        IconButton(
-            onPressed: () {
-              Navigator.pop(context);
-            },
-            icon: Icon(
-              Icons.arrow_back_ios_new,
-              color: Colors.white,
-            )),
+        Container(
+          color: Colors.black.withOpacity(0.3),
+          width: size.width,
+          height: 240,
+        ),
         Column(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            Row(
-              mainAxisAlignment: MainAxisAlignment.end,
+            Column(
               children: [
-                Container(
-                  margin: EdgeInsets.fromLTRB(0, 30, 10, 0),
-                  child: Text(
-                    'Самара'.toUpperCase(),
-                    style: TextStyle(
-                      fontSize: 64,
-                      fontWeight: FontWeight.w500,
-                      color: Colors.white,
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    GestureDetector(
+                      onTap: () {
+                        Navigator.pop(context);
+                      },
+                      child: Container(
+                        margin: EdgeInsets.all(8.0),
+                        decoration: BoxDecoration(
+                          color: Colors.white,
+                          borderRadius: BorderRadius.circular(10),
+                        ),
+                        padding: EdgeInsets.all(8.0),
+                        child: Center(
+                          child: Icon(
+                            Icons.arrow_back_ios_new,
+                            color: Theme.of(context).primaryColor,
+                          ),
+                        ),
+                      ),
                     ),
-                  ),
-                ),
-              ],
-            ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.end,
-              children: [
-                Container(
-                  margin: EdgeInsets.fromLTRB(0, 0, 10, 3),
-                  child: Text(
-                    'Участвуют 28',
-                    style: TextStyle(
-                      fontSize: 14,
-                      fontWeight: FontWeight.w500,
-                      color: Colors.white,
+                    Container(
+                      child: Text(
+                        'Самара'.toUpperCase(),
+                        style: TextStyle(
+                          fontSize: 64,
+                          fontWeight: FontWeight.w500,
+                          color: Colors.white,
+                        ),
+                      ),
                     ),
-                  ),
+                  ],
                 ),
-              ],
-            ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Container(
-                  margin: EdgeInsets.fromLTRB(10, 45, 0, 0),
-                  child: ElevatedButton(
-                    style: ElevatedButton.styleFrom(
-                        primary: Colors.white,
-                        fixedSize: Size(115, 15),
-                        shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(10))),
-                    child: Text(
-                      "Пригласить",
-                      style: TextStyle(
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.end,
+                  children: [
+                    Container(
+                      margin: EdgeInsets.fromLTRB(0, 0, 10, 3),
+                      child: Text(
+                        'Участвуют 28',
+                        style: TextStyle(
                           fontSize: 14,
-                          fontWeight: FontWeight.w300,
-                          color: Theme.of(context).primaryColor),
+                          fontWeight: FontWeight.w500,
+                          color: Colors.white,
+                        ),
+                      ),
                     ),
-                    onPressed: () {
-                      AutoRouter.of(context).push(BloggersScreenRoute());
-                    },
-                  ),
-                ),
-                Container(
-                  margin: EdgeInsets.fromLTRB(0, 65, 10, 3),
-                  child: Text(
-                    'Оценка',
-                    style: TextStyle(
-                      fontSize: 14,
-                      fontWeight: FontWeight.w500,
-                      color: Colors.white,
-                    ),
-                  ),
+                  ],
                 ),
               ],
             ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.end,
+            Column(
               children: [
-                Container(
-                  margin: EdgeInsets.fromLTRB(0, 0, 3, 3),
-                  child: Text(
-                    '4/5',
-                    style: TextStyle(
-                      fontSize: 14,
-                      fontWeight: FontWeight.w500,
-                      color: Colors.white,
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.end,
+                  children: [
+                    Padding(
+                      padding: EdgeInsets.fromLTRB(0, 65, 10, 3),
+                      child: Text(
+                        'Оценка',
+                        style: TextStyle(
+                          fontSize: 14,
+                          fontWeight: FontWeight.w500,
+                          color: Colors.white,
+                        ),
+                      ),
                     ),
-                  ),
+                  ],
                 ),
-                Container(
-                  margin: EdgeInsets.only(right: 5),
-                  child: Row(
-                    children: [
-                      Icon(Icons.star_border_outlined,
-                          size: 15, color: Colors.white),
-                      Icon(Icons.star_border_outlined,
-                          size: 15, color: Colors.white),
-                      Icon(Icons.star_border_outlined,
-                          size: 15, color: Colors.white),
-                      Icon(Icons.star_border_outlined,
-                          size: 15, color: Colors.white),
-                      Icon(Icons.star_border_outlined,
-                          size: 15, color: Colors.white)
-                    ],
-                  ),
-                )
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.end,
+                  children: [
+                    Container(
+                      margin: EdgeInsets.fromLTRB(0, 0, 3, 3),
+                      child: Text(
+                        '4/5',
+                        style: TextStyle(
+                          fontSize: 14,
+                          fontWeight: FontWeight.w500,
+                          color: Colors.white,
+                        ),
+                      ),
+                    ),
+                    Container(
+                      margin: EdgeInsets.only(right: 5),
+                      child: Row(
+                        children: [
+                          Icon(Icons.star_border_outlined,
+                              size: 15, color: Colors.white),
+                          Icon(Icons.star_border_outlined,
+                              size: 15, color: Colors.white),
+                          Icon(Icons.star_border_outlined,
+                              size: 15, color: Colors.white),
+                          Icon(Icons.star_border_outlined,
+                              size: 15, color: Colors.white),
+                          Icon(Icons.star_border_outlined,
+                              size: 15, color: Colors.white)
+                        ],
+                      ),
+                    )
+                  ],
+                ),
               ],
             ),
           ],
-        )
+        ),
+        Align(
+          alignment: Alignment.bottomLeft,
+          child: Padding(
+            padding: EdgeInsets.all(6.0),
+            child: ElevatedButton(
+              style: ElevatedButton.styleFrom(
+                  primary: Colors.white,
+                  shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(8))),
+              child: Text(
+                "Пригласить",
+                style: TextStyle(
+                    fontSize: 18,
+                    fontWeight: FontWeight.w300,
+                    color: Theme.of(context).primaryColor),
+              ),
+              onPressed: () {
+                AutoRouter.of(context).push(BloggersScreenRoute());
+              },
+            ),
+          ),
+        ),
       ],
     );
   }
