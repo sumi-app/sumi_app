@@ -94,24 +94,37 @@ class _Loader extends StatelessWidget {
                             );
                           }),
                         ),
-                        BlocBuilder<BloggerBloc, BloggerState>(
-                            builder: (context, state) {
-                          if (state is BloggerLoaded) {
-                            final b = state.blogger;
-                            return Text(
-                              '${b.count} Подписчиков',
+                        Row(
+                          children: [
+                            Text(
+                              '${review.likes} Лайков',
                               style: TextStyle(
                                 fontSize: 14,
                                 fontWeight: FontWeight.w300,
                                 color: Colors.grey,
                               ),
-                            );
-                          }
-                          return SizedBox(
-                            height: 14,
-                            width: 50,
-                          );
-                        }),
+                            ),
+                            const SizedBox(width: 20),
+                            BlocBuilder<BloggerBloc, BloggerState>(
+                                builder: (context, state) {
+                              if (state is BloggerLoaded) {
+                                final b = state.blogger;
+                                return Text(
+                                  '${b.count} Подписчиков',
+                                  style: TextStyle(
+                                    fontSize: 14,
+                                    fontWeight: FontWeight.w300,
+                                    color: Colors.grey,
+                                  ),
+                                );
+                              }
+                              return SizedBox(
+                                height: 14,
+                                width: 50,
+                              );
+                            }),
+                          ],
+                        ),
                         GestureDetector(
                           onTap: () {
                             U.open(review.postLink);

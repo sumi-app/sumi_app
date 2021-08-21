@@ -8,6 +8,7 @@ class ApiReview {
     required this.id,
     required this.bloggerId,
     required this.postLink,
+    required this.likes,
   });
 
   final int id;
@@ -15,6 +16,7 @@ class ApiReview {
   final int bloggerId;
   @JsonKey(name: 'post_link')
   final String postLink;
+  final int likes;
 
   factory ApiReview.fromJson(Map<String, dynamic> json) =>
       _$ApiReviewFromJson(json);
