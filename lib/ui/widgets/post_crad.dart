@@ -18,7 +18,9 @@ class PostCard extends StatelessWidget {
           padding: EdgeInsets.only(top: 10),
           margin: EdgeInsets.symmetric(horizontal: 20),
           child: InkWell(
-            onTap: () {},
+            onTap: () {
+              U.open(review.postLink);
+            },
             child: Row(
               children: [
                 Stack(
@@ -60,8 +62,8 @@ class PostCard extends StatelessWidget {
                             color: Colors.grey,
                           ),
                         ),
-                        TextButton(
-                          onPressed: () {
+                        GestureDetector(
+                          onTap: () {
                             U.open(review.postLink);
                           },
                           child: Text(
