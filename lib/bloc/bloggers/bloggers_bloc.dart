@@ -10,6 +10,13 @@ class BloggersBloc extends Bloc<BloggersEvent, BloggersState> {
     if (event is LoadBlogegrs) {
       yield* _mapLoadBloggersToState(event);
     }
+    if (event is SelectBloggers) {
+      await _selectBloggers(event);
+    }
+  }
+
+  Future<void> _selectBloggers(SelectBloggers event) async {
+    await ApiProvider.sdk.blogger.select(event.ids);
   }
 
   Stream<BloggersState> _mapLoadBloggersToState(LoadBlogegrs event) async* {

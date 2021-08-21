@@ -6,3 +6,11 @@ class BloggersEvent extends Equatable {
 }
 
 class LoadBlogegrs extends BloggersEvent {}
+
+class SelectBloggers extends BloggersEvent {
+  SelectBloggers(this.ids);
+  final List<int> ids;
+
+  @override
+  List<Object?> get props => super.props..add(ids);
+}
