@@ -1,26 +1,21 @@
 import 'package:equatable/equatable.dart';
+import 'package:sumi_api/sumi_api.dart';
 
 class ReviewsState extends Equatable {
   @override
   List<Object?> get props => [];
 }
 
-class ReviewLoading extends ReviewsState {}
+class ReviewsLoading extends ReviewsState {}
 
-class ReviewLoadingFailure extends ReviewsState {}
+class ReviewsLoadingFailure extends ReviewsState {}
 
-// class BloggersLoaded extends ReviewsState {
-//   BloggersLoaded({
-//     required this.unselectBloggers,
-//     required this.selectedBloggers,
-//   });
-//   final List<ApiBlogger> unselectBloggers;
-//   final List<ApiBlogger> selectedBloggers;
+class ReviewsLoaded extends ReviewsState {
+  ReviewsLoaded({
+    required this.reviews,
+  });
+  final List<ApiReview> reviews;
 
-//   @override
-//   List<Object?> get props => super.props
-//     ..addAll([
-//       unselectBloggers,
-//       selectedBloggers,
-//     ]);
-// }
+  @override
+  List<Object?> get props => super.props..add(reviews);
+}

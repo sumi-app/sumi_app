@@ -1,11 +1,11 @@
 import 'package:equatable/equatable.dart';
 
-class ReviewEvent extends Equatable {
+class ReviewsEvent extends Equatable {
   @override
   List<Object?> get props => [];
 }
 
-class LoadReviews extends ReviewEvent {
+class LoadReviews extends ReviewsEvent {
   LoadReviews({this.withLoading = true});
   final bool withLoading;
 
