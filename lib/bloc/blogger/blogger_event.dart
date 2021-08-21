@@ -6,9 +6,10 @@ class BloggerEvent extends Equatable {
 }
 
 class LoadBlogger extends BloggerEvent {
-  LoadBlogger({this.withLoading = true});
+  LoadBlogger(this.id, {this.withLoading = true});
   final bool withLoading;
+  final int id;
 
   @override
-  List<Object?> get props => super.props..add(withLoading);
+  List<Object?> get props => super.props..addAll([id, withLoading]);
 }
