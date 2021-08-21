@@ -99,17 +99,9 @@ class BlogCard extends StatelessWidget {
                 ),
                 Transform(
                   transform: Matrix4.translationValues(10, 10, 0),
-                  child:
-                      //TODO: Вот тут иконка соц сети
-                      // Сделай пж тоже через Clip
-                      //ClipOval вроде
-                      Container(
-                    color: Colors.red,
-                    width: 30,
-                    height: 30,
-                  ),
-                  //
-                  //
+                  child:ClipOval(child: 
+                  Image.network("https://cdn.pixabay.com/photo/2021/06/15/12/17/instagram-6338401_960_720.png", height: 25,width: 25,)
+                  )                      
                 ),
               ],
             ),
