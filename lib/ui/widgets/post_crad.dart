@@ -99,7 +99,7 @@ class _Loader extends StatelessWidget {
                           if (state is BloggerLoaded) {
                             final b = state.blogger;
                             return Text(
-                              '${b.count}',
+                              '${b.count} Подписчиков',
                               style: TextStyle(
                                 fontSize: 14,
                                 fontWeight: FontWeight.w300,
