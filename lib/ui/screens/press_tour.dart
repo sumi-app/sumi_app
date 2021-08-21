@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:sumi/bloc/review/bloc.dart';
 import 'package:sumi/ui/routes/app_router.gr.dart';
 import 'package:auto_route/auto_route.dart';
+import 'package:sumi/ui/widgets/post_crad.dart';
 
 class PressTourScreen extends StatelessWidget {
   const PressTourScreen({
@@ -55,10 +58,17 @@ class PressTourScreen extends StatelessWidget {
                         ),
                       ),
                     ),
-                    PostCard(),
-                    PostCard(),
-                    PostCard(),
-                    PostCard(),
+                    BlocBuilder<ReviewBloc, ReviewsState>(
+                      builder: (context, state) {
+                        if (state is ReviewsLoaded) {
+                          return Column(
+                            children:
+                                state.reviews.map((e) => PostCard()).toList(),
+                          );
+                        }
+                        return LinearProgressIndicator();
+                      },
+                    ),
                   ],
                 ),
               ),
@@ -67,75 +77,6 @@ class PressTourScreen extends StatelessWidget {
         ),
       ),
     ));
-  }
-}
-
-class PostCard extends StatelessWidget {
-  const PostCard({
-    Key? key,
-  }) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return Column(
-      children: [
-        Container(
-          padding: EdgeInsets.only(top: 10),
-          margin: EdgeInsets.symmetric(horizontal: 20),
-          child: InkWell(
-            onTap: () {},
-            child: Row(
-              children: [
-                Stack(
-                  alignment: Alignment.bottomRight,
-                  children: [
-                    ClipRRect(
-                      borderRadius: BorderRadius.circular(10),
-                      child: Image.network(
-                        "https://picsum.photos/250?image=9",
-                        width: 62,
-                        height: 62,
-                      ),
-                    ),
-                  ],
-                ),
-                Expanded(
-                  child: Container(
-                    padding: EdgeInsets.only(left: 10),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Container(
-                          padding: EdgeInsets.only(bottom: 5),
-                          child: Text(
-                            'Птушкин',
-                            style: TextStyle(
-                              fontFamily: "Rubik",
-                              fontSize: 18,
-                              fontWeight: FontWeight.w600,
-                              color: Colors.black,
-                            ),
-                          ),
-                        ),
-                        Text(
-                          '4.900к Подписчиков',
-                          style: TextStyle(
-                            fontSize: 14,
-                            fontWeight: FontWeight.w300,
-                            color: Colors.grey,
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                ),
-              ],
-            ),
-          ),
-        ),
-        Divider()
-      ],
-    );
   }
 }
 
@@ -159,7 +100,9 @@ class TopPressTourBar extends StatelessWidget {
           ),
         ),
         IconButton(
-            onPressed: () {Navigator.pop(context);},
+            onPressed: () {
+              Navigator.pop(context);
+            },
             icon: Icon(
               Icons.arrow_back_ios_new,
               color: Colors.white,
@@ -216,7 +159,9 @@ class TopPressTourBar extends StatelessWidget {
                           fontWeight: FontWeight.w300,
                           color: Theme.of(context).primaryColor),
                     ),
-                    onPressed: () {AutoRouter.of(context).push(BloggersScreenRoute());},
+                    onPressed: () {
+                      AutoRouter.of(context).push(BloggersScreenRoute());
+                    },
                   ),
                 ),
                 Container(
@@ -235,7 +180,6 @@ class TopPressTourBar extends StatelessWidget {
             Row(
               mainAxisAlignment: MainAxisAlignment.end,
               children: [
-                
                 Container(
                   margin: EdgeInsets.fromLTRB(0, 0, 3, 3),
                   child: Text(
