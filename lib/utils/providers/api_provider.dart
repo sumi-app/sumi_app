@@ -4,7 +4,7 @@ abstract class ApiProvider {
   static SumiApiInterface _sdk = SumiApi(
     //TODO:
     apiKey: '',
-    baseUrl: 'https://poema-api-v2.herokuapp.com',
+    baseUrl: 'https://sumi-api.herokuapp.com',
     apiPath: 'api',
   );
   static SumiApiInterface get sdk => _sdk;

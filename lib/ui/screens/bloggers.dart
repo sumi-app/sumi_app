@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:sumi/bloc/bloggers/bloc.dart';
 
 class BloggersScreen extends StatefulWidget {
   const BloggersScreen({
@@ -91,8 +93,7 @@ class _FirstScreenState extends State<FirstScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: ListView(
-        padding: EdgeInsets.symmetric(horizontal: 10),
+      body: Column(
         children: [
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -137,18 +138,32 @@ class _FirstScreenState extends State<FirstScreen> {
               ),
             ],
           ),
-          BlogCard(
-            onChanged: (v) {},
-            isSelectingMode: isSelected,
-          ),
-          BlogCard(
-            isSelectingMode: isSelected,
-          ),
-          BlogCard(
-            isSelectingMode: isSelected,
-          ),
-          BlogCard(
-            isSelectingMode: isSelected,
+          BlocBuilder<BloggersBloc, BloggersState>(
+            builder: (context, state) {
+              if (state is BloggersLoaded) {
+                return Expanded(
+                  child: ListView(
+                    padding: EdgeInsets.symmetric(horizontal: 10),
+                    children: [
+                      BlogCard(
+                        onChanged: (v) {},
+                        isSelectingMode: isSelected,
+                      ),
+                      BlogCard(
+                        isSelectingMode: isSelected,
+                      ),
+                      BlogCard(
+                        isSelectingMode: isSelected,
+                      ),
+                      BlogCard(
+                        isSelectingMode: isSelected,
+                      ),
+                    ],
+                  ),
+                );
+              }
+              return CircularProgressIndicator();
+            },
           ),
         ],
       ),
